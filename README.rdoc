@@ -1,8 +1,9 @@
-# Wysihtml5_Rails
-
+Wysihtml5_Rails
+===============
 A gem to put wysihtml5 in your asset pipeline.  Eventually I'd like to add themes and some additional options.
 
-### USAGE
+USAGE
+-----
 To install
 
 '''
