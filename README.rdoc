@@ -5,9 +5,7 @@ A gem to put wysihtml5 in your asset pipeline.  Eventually I'd like to add theme
 === USAGE
 To install
 
-(({
 gem "wysihtml5_rails", :git => 'git://github.com/Neener54/wysihtml5_rails.git'
-}))
 
 (I'll hopefully get around to adding this to rubygems once I get the kinks all worked out).
 
