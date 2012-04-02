@@ -1,3 +1,15 @@
-= Wysihtml5Rails
+#Wysihtml5_Rails
 
-A gem to put wysihtml5 in your asset pipeline.  Eventually I'd like to add themes and some additional options.  
+A gem to put wysihtml5 in your asset pipeline.  Eventually I'd like to add themes and some additional options.
+
+###USAGE
+To install
+
+gem "wysihtml5_rails", :git => 'git://github.com/Neener54/wysihtml5_rails.git'
+
+(I'll hopefully get around to adding this to rubygems once I get the kinks all worked out).
+
+After the gem is installed simply add "wysihtml5" to your application.js
+Optionally you can add "wysihtml5-full" if you want to include the unminified version (I may eventually default to just the unminified version since rails can handle this).
+
+In future versions I hope to be able to add a few themes so that you just have to include the css for the theme.  I'll also be adding in some of the custom rule sets.
