@@ -5315,7 +5315,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         "XMLHttpRequest", "XDomainRequest"
       ],
       /**
-       * Properties to unset/protect on the document object
+       * Properties to unset/proetect on the document object
        */
       documentProperties  = [
         "referrer",
@@ -5491,7 +5491,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       return wysihtml5.lang.string(
         '<!DOCTYPE html><html><head>'
         + '<meta charset="#{charset}">#{stylesheets}</head>'
-        + '<body><p></p></body></html>'
+        + '<body></body></html>'
       ).interpolate(templateVars);
     },
 
@@ -6958,7 +6958,7 @@ wysihtml5.Commands = Base.extend(
  */
 (function(wysihtml5) {
   var undef,
-      REG_EXP = /wysiwyg-font-size-[a-z\-]+/g;
+      REG_EXP = /wysiwyg-font-size-[a-z]+/g;
 
   wysihtml5.commands.fontSize = {
     exec: function(composer, command, size) {
@@ -7441,7 +7441,7 @@ wysihtml5.Commands = Base.extend(
   };
 })(wysihtml5);(function(wysihtml5) {
   var undef,
-      LINE_BREAK = "</p><p>" + (wysihtml5.browser.needsSpaceAfterLineBreak() ? " " : "");
+      LINE_BREAK = "<br>" + (wysihtml5.browser.needsSpaceAfterLineBreak() ? " " : "");
 
   wysihtml5.commands.insertLineBreak = {
     exec: function(composer, command) {
@@ -7660,14 +7660,17 @@ wysihtml5.Commands = Base.extend(
     }
   };
 })(wysihtml5);(function(wysihtml5) {
-  var undef;
+  var undef,
+      REG_EXP     = /wysiwyg-text-decoration-underline/g,
+      CLASS_NAME  = "wysiwyg-text-decoration-underline";
+
   wysihtml5.commands.underline = {
     exec: function(composer, command) {
-      return wysihtml5.commands.formatInline.exec(composer, command, "u");
+      return wysihtml5.commands.formatInline.exec(composer, command, "span", CLASS_NAME, REG_EXP);
     },
 
     state: function(composer, command) {
-      return wysihtml5.commands.formatInline.state(composer, command, "u");
+      return wysihtml5.commands.formatInline.state(composer, command, "span", CLASS_NAME, REG_EXP);
     },
 
     value: function() {
