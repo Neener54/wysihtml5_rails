@@ -1,5 +1,5 @@
 /**
- * @license wysihtml5 v0.3.0_rc2
+ * @license wysihtml5 v0.3.0
  * https://github.com/xing/wysihtml5
  *
  * Author: Christopher Blum (https://github.com/tiff)
@@ -9,7 +9,7 @@
  *
  */
 var wysihtml5 = {
-  version: "0.3.0_rc2",
+  version: "0.3.0",
   
   // namespaces
   commands:   {},
@@ -3244,143 +3244,143 @@ rangy.createModule("DomUtil", function(api, module) {
     });
 });
 /*
-    Base.js, version 1.1a
-    Copyright 2006-2010, Dean Edwards
-    License: http://www.opensource.org/licenses/mit-license.php
+	Base.js, version 1.1a
+	Copyright 2006-2010, Dean Edwards
+	License: http://www.opensource.org/licenses/mit-license.php
 */
 
 var Base = function() {
-    // dummy
+	// dummy
 };
 
 Base.extend = function(_instance, _static) { // subclass
-    var extend = Base.prototype.extend;
-    
-    // build the prototype
-    Base._prototyping = true;
-    var proto = new this;
-    extend.call(proto, _instance);
+	var extend = Base.prototype.extend;
+	
+	// build the prototype
+	Base._prototyping = true;
+	var proto = new this;
+	extend.call(proto, _instance);
   proto.base = function() {
     // call this method from any other method to invoke that method's ancestor
   };
-    delete Base._prototyping;
-    
-    // create the wrapper for the constructor function
-    //var constructor = proto.constructor.valueOf(); //-dean
-    var constructor = proto.constructor;
-    var klass = proto.constructor = function() {
-        if (!Base._prototyping) {
-            if (this._constructing || this.constructor == klass) { // instantiation
-                this._constructing = true;
-                constructor.apply(this, arguments);
-                delete this._constructing;
-            } else if (arguments[0] != null) { // casting
-                return (arguments[0].extend || extend).call(arguments[0], proto);
-            }
-        }
-    };
-    
-    // build the class interface
-    klass.ancestor = this;
-    klass.extend = this.extend;
-    klass.forEach = this.forEach;
-    klass.implement = this.implement;
-    klass.prototype = proto;
-    klass.toString = this.toString;
-    klass.valueOf = function(type) {
-        //return (type == "object") ? klass : constructor; //-dean
-        return (type == "object") ? klass : constructor.valueOf();
-    };
-    extend.call(klass, _static);
-    // class initialisation
-    if (typeof klass.init == "function") klass.init();
-    return klass;
+	delete Base._prototyping;
+	
+	// create the wrapper for the constructor function
+	//var constructor = proto.constructor.valueOf(); //-dean
+	var constructor = proto.constructor;
+	var klass = proto.constructor = function() {
+		if (!Base._prototyping) {
+			if (this._constructing || this.constructor == klass) { // instantiation
+				this._constructing = true;
+				constructor.apply(this, arguments);
+				delete this._constructing;
+			} else if (arguments[0] != null) { // casting
+				return (arguments[0].extend || extend).call(arguments[0], proto);
+			}
+		}
+	};
+	
+	// build the class interface
+	klass.ancestor = this;
+	klass.extend = this.extend;
+	klass.forEach = this.forEach;
+	klass.implement = this.implement;
+	klass.prototype = proto;
+	klass.toString = this.toString;
+	klass.valueOf = function(type) {
+		//return (type == "object") ? klass : constructor; //-dean
+		return (type == "object") ? klass : constructor.valueOf();
+	};
+	extend.call(klass, _static);
+	// class initialisation
+	if (typeof klass.init == "function") klass.init();
+	return klass;
 };
 
-Base.prototype = {  
-    extend: function(source, value) {
-        if (arguments.length > 1) { // extending with a name/value pair
-            var ancestor = this[source];
-            if (ancestor && (typeof value == "function") && // overriding a method?
-                // the valueOf() comparison is to avoid circular references
-                (!ancestor.valueOf || ancestor.valueOf() != value.valueOf()) &&
-                /\bbase\b/.test(value)) {
-                // get the underlying method
-                var method = value.valueOf();
-                // override
-                value = function() {
-                    var previous = this.base || Base.prototype.base;
-                    this.base = ancestor;
-                    var returnValue = method.apply(this, arguments);
-                    this.base = previous;
-                    return returnValue;
-                };
-                // point to the underlying method
-                value.valueOf = function(type) {
-                    return (type == "object") ? value : method;
-                };
-                value.toString = Base.toString;
-            }
-            this[source] = value;
-        } else if (source) { // extending with an object literal
-            var extend = Base.prototype.extend;
-            // if this object has a customised extend method then use it
-            if (!Base._prototyping && typeof this != "function") {
-                extend = this.extend || extend;
-            }
-            var proto = {toSource: null};
-            // do the "toString" and other methods manually
-            var hidden = ["constructor", "toString", "valueOf"];
-            // if we are prototyping then include the constructor
-            var i = Base._prototyping ? 0 : 1;
-            while (key = hidden[i++]) {
-                if (source[key] != proto[key]) {
-                    extend.call(this, key, source[key]);
+Base.prototype = {	
+	extend: function(source, value) {
+		if (arguments.length > 1) { // extending with a name/value pair
+			var ancestor = this[source];
+			if (ancestor && (typeof value == "function") && // overriding a method?
+				// the valueOf() comparison is to avoid circular references
+				(!ancestor.valueOf || ancestor.valueOf() != value.valueOf()) &&
+				/\bbase\b/.test(value)) {
+				// get the underlying method
+				var method = value.valueOf();
+				// override
+				value = function() {
+					var previous = this.base || Base.prototype.base;
+					this.base = ancestor;
+					var returnValue = method.apply(this, arguments);
+					this.base = previous;
+					return returnValue;
+				};
+				// point to the underlying method
+				value.valueOf = function(type) {
+					return (type == "object") ? value : method;
+				};
+				value.toString = Base.toString;
+			}
+			this[source] = value;
+		} else if (source) { // extending with an object literal
+			var extend = Base.prototype.extend;
+			// if this object has a customised extend method then use it
+			if (!Base._prototyping && typeof this != "function") {
+				extend = this.extend || extend;
+			}
+			var proto = {toSource: null};
+			// do the "toString" and other methods manually
+			var hidden = ["constructor", "toString", "valueOf"];
+			// if we are prototyping then include the constructor
+			var i = Base._prototyping ? 0 : 1;
+			while (key = hidden[i++]) {
+				if (source[key] != proto[key]) {
+					extend.call(this, key, source[key]);
 
-                }
-            }
-            // copy each of the source object's properties to this object
-            for (var key in source) {
-                if (!proto[key]) extend.call(this, key, source[key]);
-            }
-        }
-        return this;
-    }
+				}
+			}
+			// copy each of the source object's properties to this object
+			for (var key in source) {
+				if (!proto[key]) extend.call(this, key, source[key]);
+			}
+		}
+		return this;
+	}
 };
 
 // initialise
 Base = Base.extend({
-    constructor: function() {
-        this.extend(arguments[0]);
-    }
+	constructor: function() {
+		this.extend(arguments[0]);
+	}
 }, {
-    ancestor: Object,
-    version: "1.1",
-    
-    forEach: function(object, block, context) {
-        for (var key in object) {
-            if (this.prototype[key] === undefined) {
-                block.call(context, object[key], key, object);
-            }
-        }
-    },
-        
-    implement: function() {
-        for (var i = 0; i < arguments.length; i++) {
-            if (typeof arguments[i] == "function") {
-                // if it's a function, call it
-                arguments[i](this.prototype);
-            } else {
-                // add the interface using the extend method
-                this.prototype.extend(arguments[i]);
-            }
-        }
-        return this;
-    },
-    
-    toString: function() {
-        return String(this.valueOf());
-    }
+	ancestor: Object,
+	version: "1.1",
+	
+	forEach: function(object, block, context) {
+		for (var key in object) {
+			if (this.prototype[key] === undefined) {
+				block.call(context, object[key], key, object);
+			}
+		}
+	},
+		
+	implement: function() {
+		for (var i = 0; i < arguments.length; i++) {
+			if (typeof arguments[i] == "function") {
+				// if it's a function, call it
+				arguments[i](this.prototype);
+			} else {
+				// add the interface using the extend method
+				this.prototype.extend(arguments[i]);
+			}
+		}
+		return this;
+	},
+	
+	toString: function() {
+		return String(this.valueOf());
+	}
 });/**
  * Detect browser support for specific features
  */
@@ -3479,7 +3479,7 @@ wysihtml5.browser = (function() {
      * Whether the browser inserts a <br> when pressing enter in a contentEditable element
      */
     insertsLineBreaksOnReturn: function() {
-      return false;
+      return isGecko;
     },
 
     supportsPlaceholderAttributeOn: function(element) {
@@ -3557,8 +3557,8 @@ wysihtml5.browser = (function() {
          // When inserting unordered or ordered lists in Firefox, Chrome or Safari, the current selection or line gets
          // converted into a list (<ul><li>...</li></ul>, <ol><li>...</li></ol>)
          // IE and Opera act a bit different here as they convert the entire content of the current block element into a list
-        "insertUnorderedList":  isIE || isOpera,
-        "insertOrderedList":    isIE || isOpera
+        "insertUnorderedList":  isIE || isOpera || isWebKit,
+        "insertOrderedList":    isIE || isOpera || isWebKit
       };
       
       // Firefox throws errors for queryCommandSupported, so we have to build up our own object of supported commands
@@ -4148,18 +4148,38 @@ wysihtml5.dom.convertToList = (function() {
     
     var doc               = element.ownerDocument,
         list              = _createList(doc, listType),
-        childNodes        = wysihtml5.lang.array(element.childNodes).get(),
-        childNodesLength  = childNodes.length,
+        lineBreaks        = element.querySelectorAll("br"),
+        lineBreaksLength  = lineBreaks.length,
+        childNodes,
+        childNodesLength,
         childNode,
+        lineBreak,
+        parentNode,
         isBlockElement,
         isLineBreak,
         currentListItem,
-        i                 = 0;
-    for (; i<childNodesLength; i++) {
-      currentListItem = currentListItem || _createListItem(doc, list);
-      childNode       = childNodes[i];
-      isBlockElement  = wysihtml5.dom.getStyle("display").from(childNode) === "block";
-      isLineBreak     = childNode.nodeName === "BR";
+        i;
+    
+    // First find <br> at the end of inline elements and move them behind them
+    for (i=0; i<lineBreaksLength; i++) {
+      lineBreak = lineBreaks[i];
+      while ((parentNode = lineBreak.parentNode) && parentNode !== element && parentNode.lastChild === lineBreak) {
+        if (wysihtml5.dom.getStyle("display").from(parentNode) === "block") {
+          parentNode.removeChild(lineBreak);
+          break;
+        }
+        wysihtml5.dom.insert(lineBreak).after(lineBreak.parentNode);
+      }
+    }
+    
+    childNodes        = wysihtml5.lang.array(element.childNodes).get();
+    childNodesLength  = childNodes.length;
+    
+    for (i=0; i<childNodesLength; i++) {
+      currentListItem   = currentListItem || _createListItem(doc, list);
+      childNode         = childNodes[i];
+      isBlockElement    = wysihtml5.dom.getStyle("display").from(childNode) === "block";
+      isLineBreak       = childNode.nodeName === "BR";
       
       if (isBlockElement) {
         // Append blockElement to current <li> if empty, otherwise create a new one
@@ -4208,7 +4228,7 @@ wysihtml5.dom.copyAttributes = function(attributesToCopy) {
               length    = attributesToCopy.length;
           for (; i<length; i++) {
             attribute = attributesToCopy[i];
-            if (elementToCopyFrom[attribute]) {
+            if (typeof(elementToCopyFrom[attribute]) !== "undefined" && elementToCopyFrom[attribute] !== "") {
               elementToCopyTo[attribute] = elementToCopyFrom[attribute];
             }
           }
@@ -4722,7 +4742,7 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
  *    // => '<p class="red">foo</p><p>bar</p>'
  */
 wysihtml5.dom.parse = (function() {
-
+  
   /**
    * It's not possible to use a XMLParser/DOMParser as HTML5 is not always well-formed XML
    * new DOMParser().parseFromString('<img src="foo.gif">') will cause a parseError since the
@@ -4739,27 +4759,27 @@ wysihtml5.dom.parse = (function() {
       WHITE_SPACE_REG_EXP = /\s+/,
       defaultRules        = { tags: {}, classes: {} },
       currentRules        = {};
-
+  
   /**
    * Iterates over all childs of the element, recreates them, appends them into a document fragment
    * which later replaces the entire body content
    */
   function parse(elementOrHtml, rules, context, cleanUp) {
     wysihtml5.lang.object(currentRules).merge(defaultRules).merge(rules).get();
-
+    
     context           = context || elementOrHtml.ownerDocument || document;
     var fragment      = context.createDocumentFragment(),
         isString      = typeof(elementOrHtml) === "string",
         element,
         newNode,
         firstChild;
-
+    
     if (isString) {
       element = wysihtml5.dom.getAsDom(elementOrHtml, context);
     } else {
       element = elementOrHtml;
     }
-
+    
     while (element.firstChild) {
       firstChild  = element.firstChild;
       element.removeChild(firstChild);
@@ -4768,16 +4788,16 @@ wysihtml5.dom.parse = (function() {
         fragment.appendChild(newNode);
       }
     }
-
+    
     // Clear element contents
     element.innerHTML = "";
-
+    
     // Insert new DOM tree
     element.appendChild(fragment);
-
+    
     return isString ? wysihtml5.quirks.getCorrectInnerHTML(element) : element;
   }
-
+  
   function _convert(oldNode, cleanUp) {
     var oldNodeType     = oldNode.nodeType,
         oldChilds       = oldNode.childNodes,
@@ -4785,20 +4805,20 @@ wysihtml5.dom.parse = (function() {
         newNode,
         method          = NODE_TYPE_MAPPING[oldNodeType],
         i               = 0;
-
+    
     newNode = method && method(oldNode);
-
+    
     if (!newNode) {
       return null;
     }
-
+    
     for (i=0; i<oldChildsLength; i++) {
       newChild = _convert(oldChilds[i], cleanUp);
       if (newChild) {
         newNode.appendChild(newChild);
       }
     }
-
+    
     // Cleanup senseless <span> elements
     if (cleanUp &&
         newNode.childNodes.length <= 1 &&
@@ -4806,10 +4826,10 @@ wysihtml5.dom.parse = (function() {
         !newNode.attributes.length) {
       return newNode.firstChild;
     }
-
+    
     return newNode;
   }
-
+  
   function _handleElement(oldNode) {
     var rule,
         newNode,
@@ -4817,7 +4837,7 @@ wysihtml5.dom.parse = (function() {
         tagRules    = currentRules.tags,
         nodeName    = oldNode.nodeName.toLowerCase(),
         scopeName   = oldNode.scopeName;
-
+    
     /**
      * We already parsed that element
      * ignore it! (yes, this sometimes happens in IE8 when the html is invalid)
@@ -4826,11 +4846,11 @@ wysihtml5.dom.parse = (function() {
       return null;
     }
     oldNode._wysihtml5 = 1;
-
+    
     if (oldNode.className === "wysihtml5-temp") {
       return null;
     }
-
+    
     /**
      * IE is the only browser who doesn't include the namespace in the
      * nodeName, that's why we have to prepend it by ourselves
@@ -4840,7 +4860,7 @@ wysihtml5.dom.parse = (function() {
     if (scopeName && scopeName != "HTML") {
       nodeName = scopeName + ":" + nodeName;
     }
-
+    
     /**
      * Repair node
      * IE is a bit bitchy when it comes to invalid nested markup which includes unclosed tags
@@ -4853,13 +4873,13 @@ wysihtml5.dom.parse = (function() {
         nodeName = "div";
       }
     }
-
+    
     if (nodeName in tagRules) {
       rule = tagRules[nodeName];
       if (!rule || rule.remove) {
         return null;
       }
-
+      
       rule = typeof(rule) === "string" ? { rename_tag: rule } : rule;
     } else if (oldNode.firstChild) {
       rule = { rename_tag: DEFAULT_NODE_NAME };
@@ -4867,14 +4887,14 @@ wysihtml5.dom.parse = (function() {
       // Remove empty unknown elements
       return null;
     }
-
+    
     newNode = oldNode.ownerDocument.createElement(rule.rename_tag || nodeName);
     _handleAttributes(oldNode, newNode, rule);
-
+    
     oldNode = null;
     return newNode;
   }
-
+  
   function _handleAttributes(oldNode, newNode, rule) {
     var attributes          = {},                         // fresh new set of attributes to set on newNode
         setClass            = rule.set_class,             // classes to set
@@ -4894,11 +4914,11 @@ wysihtml5.dom.parse = (function() {
         attributeName,
         newAttributeValue,
         method;
-
+    
     if (setAttributes) {
       attributes = wysihtml5.lang.object(setAttributes).clone();
     }
-
+    
     if (checkAttributes) {
       for (attributeName in checkAttributes) {
         method = attributeCheckMethods[checkAttributes[attributeName]];
@@ -4911,11 +4931,11 @@ wysihtml5.dom.parse = (function() {
         }
       }
     }
-
+    
     if (setClass) {
       classes.push(setClass);
     }
-
+    
     if (addClass) {
       for (attributeName in addClass) {
         method = addClassMethods[addClass[attributeName]];
@@ -4928,10 +4948,10 @@ wysihtml5.dom.parse = (function() {
         }
       }
     }
-
+    
     // make sure that wysihtml5 temp class doesn't get stripped out
     allowedClasses["_wysihtml5-temp-placeholder"] = 1;
-
+    
     // add old classes last
     oldClasses = oldNode.getAttribute("class");
     if (oldClasses) {
@@ -4944,7 +4964,7 @@ wysihtml5.dom.parse = (function() {
         newClasses.push(currentClass);
       }
     }
-
+    
     // remove duplicate entries and preserve class specificity
     newClassesLength = newClasses.length;
     while (newClassesLength--) {
@@ -4953,11 +4973,11 @@ wysihtml5.dom.parse = (function() {
         newUniqueClasses.unshift(currentClass);
       }
     }
-
+    
     if (newUniqueClasses.length) {
       attributes["class"] = newUniqueClasses.join(" ");
     }
-
+    
     // set attributes on newNode
     for (attributeName in attributes) {
       // Setting attributes can cause a js error in IE under certain circumstances
@@ -4967,7 +4987,7 @@ wysihtml5.dom.parse = (function() {
         newNode.setAttribute(attributeName, attributes[attributeName]);
       } catch(e) {}
     }
-
+    
     // IE8 sometimes loses the width/height attributes when those are set before the "src"
     // so we make sure to set them again
     if (attributes.src) {
@@ -4979,7 +4999,7 @@ wysihtml5.dom.parse = (function() {
       }
     }
   }
-
+  
   /**
    * IE gives wrong results for hasAttribute/getAttribute, for example:
    *    var td = document.createElement("td");
@@ -5002,13 +5022,13 @@ wysihtml5.dom.parse = (function() {
       var outerHTML      = node.outerHTML.toLowerCase(),
           // TODO: This might not work for attributes without value: <input disabled>
           hasAttribute   = outerHTML.indexOf(" " + attributeName +  "=") != -1;
-
+      
       return hasAttribute ? node.getAttribute(attributeName) : null;
     } else{
       return node.getAttribute(attributeName);
     }
   }
-
+  
   /**
    * Check whether the given node is a proper loaded image
    * FIXME: Returns undefined when unknown (Chrome, Safari)
@@ -5022,12 +5042,12 @@ wysihtml5.dom.parse = (function() {
       }
     }
   }
-
+  
   function _handleText(oldNode) {
     return oldNode.ownerDocument.createTextNode(oldNode.data);
   }
-
-
+  
+  
   // ------------ attribute checks ------------ \\
   var attributeCheckMethods = {
     url: (function() {
@@ -5041,7 +5061,7 @@ wysihtml5.dom.parse = (function() {
         });
       };
     })(),
-
+    
     alt: (function() {
       var REG_EXP = /[^ a-z0-9_\-]/gi;
       return function(attributeValue) {
@@ -5051,7 +5071,7 @@ wysihtml5.dom.parse = (function() {
         return attributeValue.replace(REG_EXP, "");
       };
     })(),
-
+    
     numbers: (function() {
       var REG_EXP = /\D/g;
       return function(attributeValue) {
@@ -5060,7 +5080,7 @@ wysihtml5.dom.parse = (function() {
       };
     })()
   };
-
+  
   // ------------ class converter (converts an html attribute to a class name) ------------ \\
   var addClassMethods = {
     align_img: (function() {
@@ -5072,7 +5092,7 @@ wysihtml5.dom.parse = (function() {
         return mapping[String(attributeValue).toLowerCase()];
       };
     })(),
-
+    
     align_text: (function() {
       var mapping = {
         left:     "wysiwyg-text-align-left",
@@ -5084,7 +5104,7 @@ wysihtml5.dom.parse = (function() {
         return mapping[String(attributeValue).toLowerCase()];
       };
     })(),
-
+    
     clear_br: (function() {
       var mapping = {
         left:   "wysiwyg-clear-left",
@@ -5096,7 +5116,7 @@ wysihtml5.dom.parse = (function() {
         return mapping[String(attributeValue).toLowerCase()];
       };
     })(),
-
+    
     size_font: (function() {
       var mapping = {
         "1": "wysiwyg-font-size-xx-small",
@@ -5114,7 +5134,7 @@ wysihtml5.dom.parse = (function() {
       };
     })()
   };
-
+  
   return parse;
 })();/**
  * Checks for empty text node childs and removes them
@@ -5130,7 +5150,6 @@ wysihtml5.dom.removeEmptyTextNodes = function(node) {
       i                 = 0;
   for (; i<childNodesLength; i++) {
     childNode = childNodes[i];
-    console.log(childNode);
     if (childNode.nodeType === wysihtml5.TEXT_NODE && childNode.data === "") {
       childNode.parentNode.removeChild(childNode);
     }
@@ -5243,7 +5262,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     
     var doc             = list.ownerDocument,
         fragment        = doc.createDocumentFragment(),
-        previousSibling = list.previousSibling,
+        previousSibling = list.previousElementSibling || list.previousSibling,
         firstChild,
         lastChild,
         isLastChild,
@@ -5322,7 +5341,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         "referrer",
         "write", "open", "close"
       ];
-
+  
   wysihtml5.dom.Sandbox = Base.extend(
     /** @scope wysihtml5.dom.Sandbox.prototype */ {
 
@@ -5331,12 +5350,12 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       this.config   = wysihtml5.lang.object({}).merge(config).get();
       this.iframe   = this._createIframe();
     },
-
+    
     insertInto: function(element) {
       if (typeof(element) === "string") {
         element = doc.getElementById(element);
       }
-
+      
       element.appendChild(this.iframe);
     },
 
@@ -5372,7 +5391,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
      *    In order to make this happen we need to set the "allow-scripts" flag.
      *    A combination of allow-scripts and allow-same-origin is almost the same as setting no sandbox attribute at all.
      *  - Chrome & Safari, doesn't seem to support sandboxing correctly when the iframe's html is inlined (no physical document)
-     *  - IE needs to have the security="restricted" attribute set before the iframe is
+     *  - IE needs to have the security="restricted" attribute set before the iframe is 
      *    inserted into the dom tree
      *  - Believe it or not but in IE "security" in document.createElement("iframe") is false, even
      *    though it supports it
@@ -5449,7 +5468,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
 
       if (!wysihtml5.browser.supportsSandboxedIframes()) {
         // Unset a bunch of sensitive variables
-        // Please note: This isn't hack safe!
+        // Please note: This isn't hack safe!  
         // It more or less just takes care of basic attacks and prevents accidental theft of sensitive information
         // IE is secure though, which is the most important thing, since IE is the only browser, who
         // takes over scripts & styles into contentEditable elements when copied from external websites
@@ -5464,7 +5483,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         for (i=0, length=documentProperties.length; i<length; i++) {
           this._unset(iframeDocument, documentProperties[i]);
         }
-        // This doesn't work in Safari 5
+        // This doesn't work in Safari 5 
         // See http://stackoverflow.com/questions/992461/is-it-possible-to-override-document-cookie-in-webkit
         this._unset(iframeDocument, "cookie", "", true);
       }
@@ -5791,7 +5810,7 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
  */
 (function(wysihtml5) {
   var dom                                           = wysihtml5.dom,
-      USE_NATIVE_LINE_BREAK_WHEN_CARET_INSIDE_TAGS  = ["LI", "P", "H1", "H2", "H3", "H4", "H5", "H6","DIV"],
+      USE_NATIVE_LINE_BREAK_WHEN_CARET_INSIDE_TAGS  = ["LI", "P", "H1", "H2", "H3", "H4", "H5", "H6"],
       LIST_TAGS                                     = ["UL", "OL", "MENU"];
   
   wysihtml5.quirks.insertLineBreakOnReturn = function(composer) {
@@ -5841,16 +5860,13 @@ wysihtml5.quirks.cleanPastedHTML = (function() {
         } else if (blockElement.nodeName.match(/H[1-6]/) && keyCode === wysihtml5.ENTER_KEY) {
           setTimeout(function() {
             unwrap(composer.selection.getSelectedNode());
-            console.log('unwrap');
           }, 0);
         } 
         return;
       }
 
       if (keyCode === wysihtml5.ENTER_KEY && !wysihtml5.browser.insertsLineBreaksOnReturn()) {
-        composer.commands.exec( "formatBlock", composer.config.breakElement);
-        composer.commands.exec("insertHTML", "<br>");
-            composer.selection.surround(document.createElement(composer.config.breakElement));
+        composer.commands.exec("insertLineBreak");
         event.preventDefault();
       }
     }
@@ -6765,20 +6781,24 @@ wysihtml5.Commands = Base.extend(
    */
   exec: function(command, value) {
     var obj     = wysihtml5.commands[command],
-        method  = obj && obj.exec;
+        args    = wysihtml5.lang.array(arguments).get(),
+        method  = obj && obj.exec,
+        result  = null;
     
     this.editor.fire("beforecommand:composer");
     
     if (method) {
-      return method.call(obj, this.composer, command, value);
+      args.unshift(this.composer);
+      result = method.apply(obj, args);
     } else {
       try {
         // try/catch for buggy firefox
-        return this.doc.execCommand(command, false, value);
+        result = this.doc.execCommand(command, false, value);
       } catch(e) {}
     }
     
     this.editor.fire("aftercommand:composer");
+    return result;
   },
   
   /**
@@ -6793,9 +6813,11 @@ wysihtml5.Commands = Base.extend(
    */
   state: function(command, commandValue) {
     var obj     = wysihtml5.commands[command],
+        args    = wysihtml5.lang.array(arguments).get(),
         method  = obj && obj.state;
     if (method) {
-      return method.call(obj, this.composer, command, commandValue);
+      args.unshift(this.composer);
+      return method.apply(obj, args);
     } else {
       try {
         // try/catch for buggy firefox
@@ -6828,7 +6850,8 @@ wysihtml5.Commands = Base.extend(
       }
     }
   }
-});(function(wysihtml5) {
+});
+(function(wysihtml5) {
   var undef;
   
   wysihtml5.commands.bold = {
@@ -6909,7 +6932,7 @@ wysihtml5.Commands = Base.extend(
       hasElementChild = !!anchor.querySelector("*");
       isEmpty = textContent === "" || textContent === wysihtml5.INVISIBLE_SPACE;
       if (!hasElementChild && isEmpty) {
-        dom.setTextContent(anchor, anchor.href);
+        dom.setTextContent(anchor, attributes.text || anchor.href);
         whiteSpace = doc.createTextNode(" ");
         composer.selection.setAfter(anchor);
         composer.selection.insertNode(whiteSpace);
@@ -7008,7 +7031,7 @@ wysihtml5.Commands = Base.extend(
       // when the caret is within a H1 and the H4 is invoked, the H1 should turn into H4
       // instead of creating a H4 within a H1 which would result in semantically invalid html
       BLOCK_ELEMENTS_GROUP    = ["H1", "H2", "H3", "H4", "H5", "H6", "P", "BLOCKQUOTE", DEFAULT_NODE_NAME];
-
+  
   /**
    * Remove similiar classes (based on classRegExp)
    * and add the desired class name
@@ -7150,12 +7173,13 @@ wysihtml5.Commands = Base.extend(
   function _hasClasses(element) {
     return !!wysihtml5.lang.string(element.className).trim();
   }
-
+  
   wysihtml5.commands.formatBlock = {
     exec: function(composer, command, nodeName, className, classRegExp) {
       var doc          = composer.doc,
           blockElement = this.state(composer, command, nodeName, className, classRegExp),
           selectedNode;
+
       nodeName = typeof(nodeName) === "string" ? nodeName.toUpperCase() : nodeName;
 
       if (blockElement) {
@@ -7445,22 +7469,15 @@ wysihtml5.Commands = Base.extend(
 })(wysihtml5);(function(wysihtml5) {
   var undef,
       LINE_BREAK = "<br>" + (wysihtml5.browser.needsSpaceAfterLineBreak() ? " " : "");
-
+  
   wysihtml5.commands.insertLineBreak = {
     exec: function(composer, command) {
-      console.log(composer.config.breakElement);
-      if (composer.config.breakElement === null){
-        if (composer.commands.support(command)) {
-          composer.doc.execCommand(command, false, null);
-          if (!wysihtml5.browser.autoScrollsToCaret()) {
-            composer.selection.scrollIntoView();
-          }
-        } else {
-          composer.commands.exec("insertHTML", LINE_BREAK);
+      if (composer.commands.support(command)) {
+        composer.doc.execCommand(command, false, null);
+        if (!wysihtml5.browser.autoScrollsToCaret()) {
+          composer.selection.scrollIntoView();
         }
-      }else{
-        console.log('formatting Block in ilb');
-        wysihtml5.commands.formatBlock.exec(composer, "formatBlock", composer.config.breakElement);
+      } else {
         composer.commands.exec("insertHTML", LINE_BREAK);
       }
     },
@@ -7478,55 +7495,52 @@ wysihtml5.Commands = Base.extend(
   
   wysihtml5.commands.insertOrderedList = {
     exec: function(composer, command) {
-      var doc = composer.doc,
-          selectedNode,
+      var doc           = composer.doc,
+          selectedNode  = composer.selection.getSelectedNode(),
+          list          = wysihtml5.dom.getParentElement(selectedNode, { nodeName: "OL" }),
+          otherList     = wysihtml5.dom.getParentElement(selectedNode, { nodeName: "UL" }),
+          tempClassName =  "_wysihtml5-temp-" + new Date().getTime(),
           isEmpty,
-          tempElement,
-          list;
-
+          tempElement;
+      
       if (composer.commands.support(command)) {
         doc.execCommand(command, false, null);
-      } else {
-        selectedNode = composer.selection.getSelectedNode();
-        list = wysihtml5.dom.getParentElement(selectedNode, { nodeName: ["UL", "OL"] }, 4);
-        if (!list) {
-          tempElement = doc.createElement("span");
-          composer.selection.surround(tempElement);
-          isEmpty = tempElement.innerHTML === "" || tempElement.innerHTML === wysihtml5.INVISIBLE_SPACE;
-          composer.selection.executeAndRestoreSimple(function() {
-            list = wysihtml5.dom.convertToList(tempElement, "ol");
-          });
-
-          if (isEmpty) {
-            composer.selection.selectNode(list.querySelector("li"));
-          }
-          return;
-        }
-
+        return;
+      }
+      
+      if (list) {
+        // Unwrap list
+        // <ol><li>foo</li><li>bar</li></ol>
+        // becomes:
+        // foo<br>bar<br>
         composer.selection.executeAndRestoreSimple(function() {
-          if (list.nodeName === "OL") {
-            // Unwrap list
-            // <ol><li>foo</li><li>bar</li></ol>
-            // becomes:
-            // foo<br>bar<br>
-            wysihtml5.dom.resolveList(list);
-          } else if (list.nodeName === "UL" || list.nodeName === "MENU") {
-            // Turn an unordered list into an ordered list
-            // <ul><li>foo</li><li>bar</li></ul>
-            // becomes:
-            // <ol><li>foo</li><li>bar</li></ol>
-            wysihtml5.dom.renameElement(list, "ol");
-          }
+          wysihtml5.dom.resolveList(list);
         });
+      } else if (otherList) {
+        // Turn an unordered list into an ordered list
+        // <ul><li>foo</li><li>bar</li></ul>
+        // becomes:
+        // <ol><li>foo</li><li>bar</li></ol>
+        composer.selection.executeAndRestoreSimple(function() {
+          wysihtml5.dom.renameElement(otherList, "ol");
+        });
+      } else {
+        // Create list
+        composer.commands.exec("formatBlock", "div", tempClassName);
+        tempElement = doc.querySelector("." + tempClassName);
+        isEmpty = tempElement.innerHTML === "" || tempElement.innerHTML === wysihtml5.INVISIBLE_SPACE;
+        composer.selection.executeAndRestoreSimple(function() {
+          list = wysihtml5.dom.convertToList(tempElement, "ol");
+        });
+        if (isEmpty) {
+          composer.selection.selectNode(list.querySelector("li"));
+        }
       }
     },
-
-    state: function(composer, command) {
-      try {
-        return composer.doc.queryCommandState(command);
-      } catch(e) {
-        return false;
-      }
+    
+    state: function(composer) {
+      var selectedNode = composer.selection.getSelectedNode();
+      return wysihtml5.dom.getParentElement(selectedNode, { nodeName: "OL" });
     },
 
     value: function() {
@@ -7538,56 +7552,52 @@ wysihtml5.Commands = Base.extend(
   
   wysihtml5.commands.insertUnorderedList = {
     exec: function(composer, command) {
-      var doc = composer.doc,
-          selectedNode,
+      var doc           = composer.doc,
+          selectedNode  = composer.selection.getSelectedNode(),
+          list          = wysihtml5.dom.getParentElement(selectedNode, { nodeName: "UL" }),
+          otherList     = wysihtml5.dom.getParentElement(selectedNode, { nodeName: "OL" }),
+          tempClassName =  "_wysihtml5-temp-" + new Date().getTime(),
           isEmpty,
-          tempElement,
-          list;
-
+          tempElement;
+      
       if (composer.commands.support(command)) {
         doc.execCommand(command, false, null);
-      } else {
-        selectedNode = composer.selection.getSelectedNode();
-        list = wysihtml5.dom.getParentElement(selectedNode, { nodeName: ["UL", "OL"] });
-
-        if (!list) {
-          tempElement = doc.createElement("span");
-          composer.selection.surround(tempElement);
-          isEmpty = tempElement.innerHTML === "" || tempElement.innerHTML === wysihtml5.INVISIBLE_SPACE;
-          composer.selection.executeAndRestoreSimple(function() {
-            list = wysihtml5.dom.convertToList(tempElement, "ul");
-          });
-
-          if (isEmpty) {
-            composer.selection.selectNode(list.querySelector("li"));
-          }
-          return;
-        }
-
+        return;
+      }
+      
+      if (list) {
+        // Unwrap list
+        // <ul><li>foo</li><li>bar</li></ul>
+        // becomes:
+        // foo<br>bar<br>
         composer.selection.executeAndRestoreSimple(function() {
-          if (list.nodeName === "UL") {
-            // Unwrap list
-            // <ul><li>foo</li><li>bar</li></ul>
-            // becomes:
-            // foo<br>bar<br>
-            wysihtml5.dom.resolveList(list);
-          } else if (list.nodeName === "OL" || list.nodeName === "MENU") {
-            // Turn an ordered list into an unordered list
-            // <ol><li>foo</li><li>bar</li></ol>
-            // becomes:
-            // <ul><li>foo</li><li>bar</li></ul>
-            wysihtml5.dom.renameElement(list, "ul");
-          }
+          wysihtml5.dom.resolveList(list);
         });
+      } else if (otherList) {
+        // Turn an ordered list into an unordered list
+        // <ol><li>foo</li><li>bar</li></ol>
+        // becomes:
+        // <ul><li>foo</li><li>bar</li></ul>
+        composer.selection.executeAndRestoreSimple(function() {
+          wysihtml5.dom.renameElement(otherList, "ul");
+        });
+      } else {
+        // Create list
+        composer.commands.exec("formatBlock", "div", tempClassName);
+        tempElement = doc.querySelector("." + tempClassName);
+        isEmpty = tempElement.innerHTML === "" || tempElement.innerHTML === wysihtml5.INVISIBLE_SPACE;
+        composer.selection.executeAndRestoreSimple(function() {
+          list = wysihtml5.dom.convertToList(tempElement, "ul");
+        });
+        if (isEmpty) {
+          composer.selection.selectNode(list.querySelector("li"));
+        }
       }
     },
-
-    state: function(composer, command) {
-      try {
-        return composer.doc.queryCommandState(command);
-      } catch(e) {
-        return false;
-      }
+    
+    state: function(composer) {
+      var selectedNode = composer.selection.getSelectedNode();
+      return wysihtml5.dom.getParentElement(selectedNode, { nodeName: "UL" });
     },
 
     value: function() {
@@ -7866,10 +7876,10 @@ wysihtml5.views.View = Base.extend(
     this.parent   = parent;
     this.element  = textareaElement;
     this.config   = config;
-
+    
     this._observeViewChange();
   },
-
+  
   _observeViewChange: function() {
     var that = this;
     this.parent.observe("beforeload", function() {
@@ -7885,34 +7895,34 @@ wysihtml5.views.View = Base.extend(
       });
     });
   },
-
+  
   focus: function() {
     if (this.element.ownerDocument.querySelector(":focus") === this.element) {
       return;
     }
-
+    
     try { this.element.focus(); } catch(e) {}
   },
-
+  
   hide: function() {
     this.element.style.display = "none";
   },
-
+  
   show: function() {
     this.element.style.display = "";
   },
-
+  
   disable: function() {
     this.element.setAttribute("disabled", "disabled");
   },
-
+  
   enable: function() {
     this.element.removeAttribute("disabled");
   }
 });(function(wysihtml5) {
   var dom       = wysihtml5.dom,
       browser   = wysihtml5.browser;
-
+  
   wysihtml5.views.Composer = wysihtml5.views.View.extend(
     /** @scope wysihtml5.views.Composer.prototype */ {
     name: "composer",
@@ -7932,7 +7942,7 @@ wysihtml5.views.View = Base.extend(
 
     getValue: function(parse) {
       var value = this.isEmpty() ? "" : wysihtml5.quirks.getCorrectInnerHTML(this.element);
-
+      
       if (parse) {
         value = this.parent.parse(value);
       }
@@ -7985,9 +7995,9 @@ wysihtml5.views.View = Base.extend(
       if (wysihtml5.browser.doesAsyncFocus() && this.hasPlaceholderSet()) {
         this.clear();
       }
-
+      
       this.base();
-
+      
       var lastChild = this.element.lastChild;
       if (setToEnd && lastChild) {
         if (lastChild.nodeName === "BR") {
@@ -8009,7 +8019,7 @@ wysihtml5.views.View = Base.extend(
     isEmpty: function() {
       var innerHTML               = this.element.innerHTML,
           elementsWithVisualValue = "blockquote, ul, ol, img, embed, object, table, iframe, svg, video, audio, button, input, select, textarea";
-      return innerHTML === ""              ||
+      return innerHTML === ""              || 
              innerHTML === this.CARET_HACK ||
              this.hasPlaceholderSet()      ||
              (this.getTextContent() === "" && !this.element.querySelector(elementsWithVisualValue));
@@ -8017,7 +8027,7 @@ wysihtml5.views.View = Base.extend(
 
     _initSandbox: function() {
       var that = this;
-
+      
       this.sandbox = new dom.Sandbox(function() {
         that._create();
       }, {
@@ -8039,23 +8049,23 @@ wysihtml5.views.View = Base.extend(
 
     _create: function() {
       var that = this;
-
+      
       this.doc                = this.sandbox.getDocument();
       this.element            = this.doc.body;
       this.textarea           = this.parent.textarea;
       this.element.innerHTML  = this.textarea.getValue(true);
       this.enable();
-
+      
       // Make sure our selection handler is ready
       this.selection = new wysihtml5.Selection(this.parent);
-
+      
       // Make sure commands dispatcher is ready
       this.commands  = new wysihtml5.Commands(this.parent);
 
       dom.copyAttributes([
         "className", "spellcheck", "title", "lang", "dir", "accessKey"
       ]).from(this.textarea.element).to(this.element);
-
+      
       dom.addClass(this.element, this.config.composerClassName);
 
       // Make the editor look like the original textarea, by syncing styles
@@ -8078,7 +8088,7 @@ wysihtml5.views.View = Base.extend(
       if (placeholderText) {
         dom.simulatePlaceholder(this.parent, this, placeholderText);
       }
-
+      
       // Make sure that the browser avoids using inline styles whenever possible
       this.commands.exec("styleWithCSS", false);
 
@@ -8186,9 +8196,9 @@ wysihtml5.views.View = Base.extend(
       var properties        = ["width", "height"],
           propertiesLength  = properties.length,
           element           = this.element;
-
+      
       this.commands.exec("enableObjectResizing", this.config.allowObjectResizing);
-
+      
       if (this.config.allowObjectResizing) {
          // IE sets inline styles after resizing objects
          // The following lines make sure that the width/height css properties
@@ -8216,7 +8226,7 @@ wysihtml5.views.View = Base.extend(
         }
       }
     },
-
+    
     _initUndoManager: function() {
       new wysihtml5.UndoManager(this.parent);
     }
@@ -8378,15 +8388,23 @@ wysihtml5.views.View = Base.extend(
     // When copying styles, we only get the computed style which is never returned in percent unit
     // Therefore we've to recalculate style onresize
     if (!wysihtml5.browser.hasCurrentStyleProperty()) {
-      dom.observe(win, "resize", function() {
-        var originalDisplayStyle = dom.getStyle("display").from(textareaElement);
+      var winObserver = dom.observe(win, "resize", function() {
+        // Remove event listener if composer doesn't exist anymore
+        if (!dom.contains(document.documentElement, that.iframe)) {
+          winObserver.stop();
+          return;
+        }
+        var originalTextareaDisplayStyle = dom.getStyle("display").from(textareaElement),
+            originalComposerDisplayStyle = dom.getStyle("display").from(that.iframe);
         textareaElement.style.display = "";
+        that.iframe.style.display = "none";
         dom.copyStyles(RESIZE_STYLE)
           .from(textareaElement)
           .to(that.iframe)
           .andTo(that.focusStylesHost)
           .andTo(that.blurStylesHost);
-        textareaElement.style.display = originalDisplayStyle;
+        that.iframe.style.display = originalComposerDisplayStyle;
+        textareaElement.style.display = originalTextareaDisplayStyle;
       });
     }
   
@@ -8422,7 +8440,7 @@ wysihtml5.views.View = Base.extend(
         "73": "italic",   // I
         "85": "underline" // U
       };
-
+  
   wysihtml5.views.Composer.prototype.observe = function() {
     var that                = this,
         state               = this.getValue(),
@@ -8462,7 +8480,7 @@ wysihtml5.views.View = Base.extend(
       }
       that.parent.fire("blur").fire("blur:composer");
     });
-
+    
     if (wysihtml5.browser.isIos()) {
       // When on iPad/iPhone/IPod after clicking outside of editor, the editor loses focus
       // but the UI still acts as if the editor has focus (blinking caret and onscreen keyboard visible)
@@ -8478,7 +8496,7 @@ wysihtml5.views.View = Base.extend(
         }
         input.focus();
         input.parentNode.removeChild(input);
-
+        
         window.scrollTo(originalScrollLeft, originalScrollTop);
       });
     }
@@ -8536,12 +8554,12 @@ wysihtml5.views.View = Base.extend(
         }
       });
     }
-
+    
     // --------- Shortcut logic ---------
     dom.observe(element, "keydown", function(event) {
       var keyCode  = event.keyCode,
           command  = shortcuts[keyCode];
-      if ((event.ctrlKey || event.metaKey) && command) {
+      if ((event.ctrlKey || event.metaKey) && !event.altKey && command) {
         that.commands.exec(command);
         event.preventDefault();
       }
@@ -8571,7 +8589,7 @@ wysihtml5.views.View = Base.extend(
       IMG: "Image: ",
       A:   "Link: "
     };
-
+    
     dom.observe(element, "mouseover", function(event) {
       var target   = event.target,
           nodeName = target.nodeName,
@@ -8579,9 +8597,11 @@ wysihtml5.views.View = Base.extend(
       if (nodeName !== "A" && nodeName !== "IMG") {
         return;
       }
-
-      title = titlePrefixes[nodeName] + (target.getAttribute("href") || target.getAttribute("src"));
-      target.setAttribute("title", title);
+      var hasTitle = target.hasAttribute("title");
+      if(!hasTitle){
+        title = titlePrefixes[nodeName] + (target.getAttribute("href") || target.getAttribute("src"));
+        target.setAttribute("title", title);
+      }
     });
   };
 })(wysihtml5);/**
@@ -9045,6 +9065,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
   var CLASS_NAME_COMMAND_DISABLED   = "wysihtml5-command-disabled",
       CLASS_NAME_COMMANDS_DISABLED  = "wysihtml5-commands-disabled",
       CLASS_NAME_COMMAND_ACTIVE     = "wysihtml5-command-active",
+      CLASS_NAME_ACTION_ACTIVE      = "wysihtml5-action-active",
       dom                           = wysihtml5.dom;
   
   wysihtml5.toolbar.Toolbar = Base.extend(
@@ -9069,11 +9090,12 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     },
 
     _getLinks: function(type) {
-      var links   = this[type + "Links"] = wysihtml5.lang.array(this.container.querySelectorAll("a[data-wysihtml5-" + type + "]")).get(),
+      var links   = this[type + "Links"] = wysihtml5.lang.array(this.container.querySelectorAll("[data-wysihtml5-" + type + "]")).get(),
           length  = links.length,
           i       = 0,
           mapping = this[type + "Mapping"] = {},
           link,
+          group,
           name,
           value,
           dialog;
@@ -9081,10 +9103,12 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         link    = links[i];
         name    = link.getAttribute("data-wysihtml5-" + type);
         value   = link.getAttribute("data-wysihtml5-" + type + "-value");
+        group   = this.container.querySelector("[data-wysihtml5-" + type + "-group='" + name + "']");
         dialog  = this._getDialog(link, name);
         
         mapping[name + ":" + value] = {
           link:   link,
+          group:  group,
           name:   name,
           value:  value,
           dialog: dialog,
@@ -9232,8 +9256,10 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     _updateLinkStates: function() {
       var element           = this.composer.element,
           commandMapping    = this.commandMapping,
+          actionMapping     = this.actionMapping,
           i,
           state,
+          action,
           command;
       // every millisecond counts... this is executed quite often
       for (i in commandMapping) {
@@ -9241,6 +9267,9 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         if (this.commandsDisabled) {
           state = false;
           dom.removeClass(command.link, CLASS_NAME_COMMAND_ACTIVE);
+          if (command.group) {
+            dom.removeClass(command.group, CLASS_NAME_COMMAND_ACTIVE);
+          }
           if (command.dialog) {
             command.dialog.hide();
           }
@@ -9254,6 +9283,9 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
             state = state.length === 1 ? state[0] : true;
           }
           dom.removeClass(command.link, CLASS_NAME_COMMAND_DISABLED);
+          if (command.group) {
+            dom.removeClass(command.group, CLASS_NAME_COMMAND_DISABLED);
+          }
         }
 
         if (command.state === state) {
@@ -9263,6 +9295,9 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
         command.state = state;
         if (state) {
           dom.addClass(command.link, CLASS_NAME_COMMAND_ACTIVE);
+          if (command.group) {
+            dom.addClass(command.group, CLASS_NAME_COMMAND_ACTIVE);
+          }
           if (command.dialog) {
             if (typeof(state) === "object") {
               command.dialog.show(state);
@@ -9272,8 +9307,24 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
           }
         } else {
           dom.removeClass(command.link, CLASS_NAME_COMMAND_ACTIVE);
+          if (command.group) {
+            dom.removeClass(command.group, CLASS_NAME_COMMAND_ACTIVE);
+          }
           if (command.dialog) {
             command.dialog.hide();
+          }
+        }
+      }
+      
+      for (i in actionMapping) {
+        action = actionMapping[i];
+        
+        if (action.name === "change_view") {
+          action.state = this.editor.currentView === this.editor.textarea;
+          if (action.state) {
+            dom.addClass(action.link, CLASS_NAME_ACTION_ACTIVE);
+          } else {
+            dom.removeClass(action.link, CLASS_NAME_ACTION_ACTIVE);
           }
         }
       }
@@ -9320,37 +9371,35 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
  */
 (function(wysihtml5) {
   var undef;
-
+  
   var defaultConfig = {
-    // Give the editor a name, the name will also be set as class name on the iframe and on the iframe's body
-    name:                     undef,
+    // Give the editor a name, the name will also be set as class name on the iframe and on the iframe's body 
+    name:                 undef,
     // Whether the editor should look like the textarea (by adopting styles)
-    style:                    true,
+    style:                true,
     // Id of the toolbar element, pass falsey value if you don't want any toolbar logic
-    toolbar:                  undef,
+    toolbar:              undef,
     // Whether urls, entered by the user should automatically become clickable-links
-    autoLink:                 true,
+    autoLink:             true,
     // Object which includes parser rules to apply when html gets inserted via copy & paste
     // See parser_rules/*.js for examples
-    parserRules:              { tags: { br: {}, span: {}, div: {}, p: {} }, classes: {} },
+    parserRules:          { tags: { br: {}, span: {}, div: {}, p: {} }, classes: {} },
     // Parser method to use when the user inserts content via copy & paste
-    parser:                 wysihtml5.dom.parse,
+    parser:               wysihtml5.dom.parse,
     // Class name which should be set on the contentEditable element in the created sandbox iframe, can be styled via the 'stylesheets' option
     composerClassName:    "wysihtml5-editor",
     // Class name to add to the body when the wysihtml5 editor is supported
-    bodyClassName:          "wysihtml5-supported",
+    bodyClassName:        "wysihtml5-supported",
     // Array (or single string) of stylesheet urls to be loaded in the editor's iframe
-    stylesheets:              [],
+    stylesheets:          [],
     // Placeholder text to use, defaults to the placeholder attribute on the textarea element
-    placeholderText:        undef,
+    placeholderText:      undef,
     // Whether the composer should allow the user to manually resize images, tables etc.
-    allowObjectResizing:    true,
-    // Set the line break tag
-    breakElement:         null, 
+    allowObjectResizing:  true,
     // Whether the rich text editor should be rendered on touch devices (wysihtml5 >= 0.3.0 comes with basic support for iOS 5)
     supportTouchDevices:  true
   };
-
+  
   wysihtml5.Editor = wysihtml5.lang.Dispatcher.extend(
     /** @scope wysihtml5.Editor.prototype */ {
     constructor: function(textareaElement, config) {
@@ -9359,45 +9408,36 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
       this.textarea         = new wysihtml5.views.Textarea(this, this.textareaElement, this.config);
       this.currentView      = this.textarea;
       this._isCompatible    = wysihtml5.browser.supported();
-
+      
       // Sort out unsupported/unwanted browsers here
       if (!this._isCompatible || (!this.config.supportTouchDevices && wysihtml5.browser.isTouchDevice())) {
         var that = this;
         setTimeout(function() { that.fire("beforeload").fire("load"); }, 0);
         return;
       }
-
+      
       // Add class name to body, to indicate that the editor is supported
       wysihtml5.dom.addClass(document.body, this.config.bodyClassName);
-
+      
       this.composer = new wysihtml5.views.Composer(this, this.textareaElement, this.config);
       this.currentView = this.composer;
-
+      
       if (typeof(this.config.parser) === "function") {
         this._initParser();
       }
-
+      
       this.observe("beforeload", function() {
         this.synchronizer = new wysihtml5.views.Synchronizer(this, this.textarea, this.composer);
         if (this.config.toolbar) {
           this.toolbar = new wysihtml5.toolbar.Toolbar(this, this.config.toolbar);
         }
       });
-
+      
       try {
         console.log("Heya! This page is using wysihtml5 for rich text editing. Check out https://github.com/xing/wysihtml5");
       } catch(e) {}
-
-      this.observe("load:composer", function () {
-        var that = this;
-        if (that.currentView.isEmpty() && that.config.breakElement !== null) {
-          setTimeout(function () {
-            that.currentView.commands.exec("formatBlock",  that.composer.config.breakElement );
-          }, 40);
-        }
-      });
     },
-
+    
     isCompatible: function() {
       return this._isCompatible;
     },
@@ -9431,7 +9471,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
       this.currentView.disable();
       return this;
     },
-
+    
     /**
      * Activate editor
      */
@@ -9439,15 +9479,15 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
       this.currentView.enable();
       return this;
     },
-
+    
     isEmpty: function() {
       return this.currentView.isEmpty();
     },
-
+    
     hasPlaceholderSet: function() {
       return this.currentView.hasPlaceholderSet();
     },
-
+    
     parse: function(htmlOrElement) {
       var returnValue = this.config.parser(htmlOrElement, this.config.parserRules, this.composer.sandbox.getDocument(), true);
       if (typeof(htmlOrElement) === "object") {
@@ -9455,7 +9495,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
       }
       return returnValue;
     },
-
+    
     /**
      * Prepare html parser logic
      *  - Observes for paste and drop
@@ -9469,7 +9509,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
           that.parse(that.composer.element);
         }, keepScrollPosition);
       });
-
+      
       this.observe("paste:textarea", function() {
         var value   = this.textarea.getValue(),
             newValue;
